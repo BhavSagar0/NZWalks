@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NZWalks.Domain", "NZWalks.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NZWalks.DAL", "NZ.DAL\NZWalks.DAL.csproj", "{193E5A0A-97C1-437C-AAF3-F3A7396D724B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NZWalks.BAL", "NZWalks.BAL\NZWalks.BAL.csproj", "{3C37D00C-749C-4CA6-A58A-6B555D8DE8E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{193E5A0A-97C1-437C-AAF3-F3A7396D724B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{193E5A0A-97C1-437C-AAF3-F3A7396D724B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{193E5A0A-97C1-437C-AAF3-F3A7396D724B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C37D00C-749C-4CA6-A58A-6B555D8DE8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C37D00C-749C-4CA6-A58A-6B555D8DE8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C37D00C-749C-4CA6-A58A-6B555D8DE8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C37D00C-749C-4CA6-A58A-6B555D8DE8E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

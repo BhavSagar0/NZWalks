@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.BAL.Contracts;
 using NZWalks.DAL.Context;
 using NZWalks.Domain.Models;
 
@@ -9,18 +10,18 @@ namespace NZWalks.API.Controllers
     [ApiController]
     public class RegionsController : ControllerBase
     {
-        private readonly NZWalksDbContext _dbContext;
+        private readonly IRegionsService _regionsService;
 
-        public RegionsController(NZWalksDbContext nZWalksDbContext)
+        public RegionsController(NZWalksDbContext nZWalksDbContext, IRegionsService regionsService)
         {
-            _dbContext = nZWalksDbContext;
+            _regionsService = regionsService;
         }
 
         //Get all Regions
         [HttpGet]
         public IActionResult GetAll() 
         {
-            var regions = _dbContext.Regions.ToList();
+            var regions = _regionsService.GetAll();
 
             return Ok(regions);
         }
@@ -31,7 +32,7 @@ namespace NZWalks.API.Controllers
         public IActionResult GetById([FromRoute] Guid id) 
         {
             //var region = _dbContext.Regions.Find(id);
-            var region = _dbContext.Regions.FirstOrDefault(x => x.Id == id);
+            var region = _regionsService.GetRegionById(id);
 
             if (region == null)
             {
