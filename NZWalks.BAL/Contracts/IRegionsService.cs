@@ -11,5 +11,8 @@ namespace NZWalks.BAL.Contracts
     {
         public List<RegionDto> GetAll();
         public RegionDto GetRegionById(Guid id);
+        public RegionDto CreateRegion(AddRegionRequestDto addRegionRequestDto);
+        public RegionDto? UpdateRegion(Guid id, UpdateRegionRequestDto updateRegionRequestDto);
+        public RegionDto? DeleteRegion(Guid id);
     }
 }

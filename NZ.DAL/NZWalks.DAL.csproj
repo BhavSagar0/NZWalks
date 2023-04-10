@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NZWalks.BAL\NZWalks.BAL.csproj" />
     <ProjectReference Include="..\NZWalks.Models\NZWalks.Domain.csproj" />
   </ItemGroup>
 

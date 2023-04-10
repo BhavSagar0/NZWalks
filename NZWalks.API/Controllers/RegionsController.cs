@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.BAL.Contracts;
-using NZWalks.DAL.Context;
-using NZWalks.Domain.Models;
+using NZWalks.BAL.DTOs;
 
 namespace NZWalks.API.Controllers
 {
@@ -12,7 +11,7 @@ namespace NZWalks.API.Controllers
     {
         private readonly IRegionsService _regionsService;
 
-        public RegionsController(NZWalksDbContext nZWalksDbContext, IRegionsService regionsService)
+        public RegionsController(IRegionsService regionsService)
         {
             _regionsService = regionsService;
         }
@@ -41,5 +40,35 @@ namespace NZWalks.API.Controllers
 
             return Ok(region);
         }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto)
+        {
+            var newRegion = _regionsService.CreateRegion(addRegionRequestDto);
+
+            return CreatedAtAction(nameof(GetById), new { id = newRegion.Id }, newRegion);
+        }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            var result = _regionsService.UpdateRegion(id, updateRegionRequestDto);
+
+            if(result == null)
+                return NotFound();
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public IActionResult Delete([FromRoute] Guid id)
+        {
+            var result = _regionsService.DeleteRegion(id);
+
+            return result == null ? NotFound() : Ok(result);
+        }
+
     }
 }

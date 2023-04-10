@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NZ.DAL\NZWalks.DAL.csproj" />
+    <ProjectReference Include="..\NZWalks.Models\NZWalks.Domain.csproj" />
   </ItemGroup>
 
 </Project>

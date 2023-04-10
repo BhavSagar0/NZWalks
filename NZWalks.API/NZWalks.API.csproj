@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NZ.DAL\NZWalks.DAL.csproj" />
     <ProjectReference Include="..\NZWalks.BAL\NZWalks.BAL.csproj" />
   </ItemGroup>
 

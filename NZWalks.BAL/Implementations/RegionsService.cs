@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using NZWalks.BAL.Contracts;
 using NZWalks.BAL.DTOs;
-using NZWalks.DAL.Repositories.Interfaces;
+using NZWalks.BAL.RepositoryInterfaces;
 using NZWalks.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,28 @@ namespace NZWalks.BAL.Implementations
             _regionsRepository = regionsRepository;
             _mapper = mapper;
         }
+
+        public RegionDto CreateRegion(AddRegionRequestDto addRegionRequestDto)
+        {
+            var newRegion = new Region();
+            var regionDto = new RegionDto();
+            _regionsRepository.BeginTransaction();
+            try
+            {
+                newRegion = _mapper.Map<AddRegionRequestDto, Region>(addRegionRequestDto);
+
+                var newRegionId = _regionsRepository.CreateRegion(newRegion);
+                _regionsRepository.CommitTransaction();
+
+                regionDto = GetRegionById(newRegionId);
+            }
+            catch (Exception ex)
+            {
+                _regionsRepository.RollbackTransaction();
+            }
+            return regionDto;
+        }
+
         public List<RegionDto> GetAll()
         {
             var regions = new List<RegionDto>();
@@ -45,6 +67,49 @@ namespace NZWalks.BAL.Implementations
             {
             }
             return region;
+        }
+
+        public RegionDto? UpdateRegion(Guid id, UpdateRegionRequestDto updateRegionRequestDto)
+        {
+            _regionsRepository.BeginTransaction();
+            var result = new Region();
+            try {
+                    result = _regionsRepository.UpdateRegion(id, _mapper.Map<Region>(updateRegionRequestDto));
+
+                    if (result != null)
+                        _regionsRepository.CommitTransaction();
+                    
+                    else
+                        _regionsRepository.RollbackTransaction();
+            }
+            catch (Exception ex) {
+                _regionsRepository.RollbackTransaction();
+            }
+            return _mapper.Map<RegionDto>(result);
+        }
+
+        public RegionDto? DeleteRegion(Guid id)
+        {
+            Region? result = null;
+            try
+            {
+                var region = GetRegionById(id);
+
+                if (region == null)
+                    return null;
+
+                _regionsRepository.BeginTransaction();
+                result = _regionsRepository.Delete(id);
+                if (result == null)
+                    _regionsRepository.RollbackTransaction();
+                else
+                    _regionsRepository.CommitTransaction(); 
+            }
+            catch (Exception ex)
+            {
+                _regionsRepository.RollbackTransaction();
+            }
+            return _mapper.Map<RegionDto>(result);
         }
     }
 }

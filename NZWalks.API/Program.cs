@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using NZWalks.BAL.Contracts;
 using NZWalks.BAL.Implementations;
+using NZWalks.BAL.RepositoryInterfaces;
 using NZWalks.DAL.Context;
 using NZWalks.DAL.Repositories.Implementations;
-using NZWalks.DAL.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<NZWalksDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));
+builder.Services.AddDbContext<NZWalksDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")), contextLifetime: ServiceLifetime.Scoped, optionsLifetime: ServiceLifetime.Scoped);
 builder.Services.AddScoped<IRegionsService, RegionsService>();
 builder.Services.AddScoped<IRegionsRespository, RegionsRepository>();
 
