@@ -22,33 +22,33 @@ namespace NZWalks.BAL.Implementations
             _mapper = mapper;
         }
 
-        public RegionDto CreateRegion(AddRegionRequestDto addRegionRequestDto)
+        public async Task<RegionDto?> CreateRegionAsync(AddRegionRequestDto addRegionRequestDto)
         {
             var newRegion = new Region();
             var regionDto = new RegionDto();
-            _regionsRepository.BeginTransaction();
+            _regionsRepository.BeginTransactionAsync();
             try
             {
                 newRegion = _mapper.Map<AddRegionRequestDto, Region>(addRegionRequestDto);
 
-                var newRegionId = _regionsRepository.CreateRegion(newRegion);
-                _regionsRepository.CommitTransaction();
+                var newRegionId = await _regionsRepository.CreateRegionAsync(newRegion);
+                _regionsRepository.CommitTransactionAsync();
 
-                regionDto = GetRegionById(newRegionId);
+                regionDto = await GetRegionByIdAsync(newRegionId);
             }
             catch (Exception ex)
             {
-                _regionsRepository.RollbackTransaction();
+                _regionsRepository.RollbackTransactionAsync();
             }
             return regionDto;
         }
 
-        public List<RegionDto> GetAll()
+        public async Task<List<RegionDto>> GetAllAsync()
         {
             var regions = new List<RegionDto>();
             try 
             {
-                regions = _mapper.Map<List<Region>, List<RegionDto>>(_regionsRepository.GetAll());
+                regions = _mapper.Map<List<Region>, List<RegionDto>>(await _regionsRepository.GetAllAsync());
             }
             catch (Exception ex) 
             {
@@ -56,12 +56,12 @@ namespace NZWalks.BAL.Implementations
             return regions;
         }
 
-        public RegionDto GetRegionById(Guid id)
+        public async Task<RegionDto?> GetRegionByIdAsync(Guid id)
         {
             var region = new RegionDto();
             try
             {
-                region = _mapper.Map<Region, RegionDto>(_regionsRepository.GetRegionById(id));
+                region = _mapper.Map<RegionDto>(await _regionsRepository.GetRegionByIdAsync(id));
             }
             catch (Exception ex)
             {
@@ -69,45 +69,45 @@ namespace NZWalks.BAL.Implementations
             return region;
         }
 
-        public RegionDto? UpdateRegion(Guid id, UpdateRegionRequestDto updateRegionRequestDto)
+        public async Task<RegionDto?> UpdateRegionAsync(Guid id, UpdateRegionRequestDto updateRegionRequestDto)
         {
-            _regionsRepository.BeginTransaction();
+            _regionsRepository.BeginTransactionAsync();
             var result = new Region();
             try {
-                    result = _regionsRepository.UpdateRegion(id, _mapper.Map<Region>(updateRegionRequestDto));
+                    result = await _regionsRepository.UpdateRegionAsync(id, _mapper.Map<Region>(updateRegionRequestDto));
 
                     if (result != null)
-                        _regionsRepository.CommitTransaction();
+                        _regionsRepository.CommitTransactionAsync();
                     
                     else
-                        _regionsRepository.RollbackTransaction();
+                        _regionsRepository.RollbackTransactionAsync();
             }
             catch (Exception ex) {
-                _regionsRepository.RollbackTransaction();
+                _regionsRepository.RollbackTransactionAsync();
             }
             return _mapper.Map<RegionDto>(result);
         }
 
-        public RegionDto? DeleteRegion(Guid id)
+        public async Task<RegionDto?> DeleteRegionAsync(Guid id)
         {
             Region? result = null;
             try
             {
-                var region = GetRegionById(id);
+                var region = await GetRegionByIdAsync(id);
 
                 if (region == null)
                     return null;
 
-                _regionsRepository.BeginTransaction();
-                result = _regionsRepository.Delete(id);
+                _regionsRepository.BeginTransactionAsync();
+                result = await _regionsRepository.DeleteAsync(id);
                 if (result == null)
-                    _regionsRepository.RollbackTransaction();
+                    _regionsRepository.RollbackTransactionAsync();
                 else
-                    _regionsRepository.CommitTransaction(); 
+                    _regionsRepository.CommitTransactionAsync(); 
             }
             catch (Exception ex)
             {
-                _regionsRepository.RollbackTransaction();
+                _regionsRepository.RollbackTransactionAsync();
             }
             return _mapper.Map<RegionDto>(result);
         }

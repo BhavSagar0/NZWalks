@@ -20,42 +20,42 @@ namespace NZWalks.DAL.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public void BeginTransaction()
+        public async void BeginTransactionAsync()
         {
-            _dbContext.Database.BeginTransaction();
+            await _dbContext.Database.BeginTransactionAsync();
         }
 
-        public void CommitTransaction()
+        public async void CommitTransactionAsync()
         {
-            _dbContext.Database.CommitTransaction();
+            await _dbContext.Database.CommitTransactionAsync();
         }
 
-        public void RollbackTransaction()
+        public async void RollbackTransactionAsync()
         {
-            _dbContext.Database.RollbackTransaction();
+            await _dbContext.Database.RollbackTransactionAsync();
         }
 
-        public Guid CreateRegion(Region newRegion)
+        public async Task<Guid> CreateRegionAsync(Region newRegion)
         {
-            var regionObj = _dbContext.Regions.Add(newRegion);
-            _dbContext.SaveChanges();
+            var regionObj = await _dbContext.Regions.AddAsync(newRegion);
+            await _dbContext.SaveChangesAsync();
 
             return regionObj.Entity.Id;
         }
 
-        public List<Region> GetAll()
+        public async Task<List<Region>> GetAllAsync()
         {
-            return _dbContext.Regions.ToList();
+            return await _dbContext.Regions.ToListAsync();
         }
 
-        public Region? GetRegionById(Guid id)
+        public async Task<Region?> GetRegionByIdAsync(Guid id)
         {
-            return _dbContext.Regions.Find(id);
+            return await _dbContext.Regions.FindAsync(id);
         }
 
-        public Region? UpdateRegion(Guid id, Region region)
+        public async Task<Region?> UpdateRegionAsync(Guid id, Region region)
         {
-            var currentRegion = GetRegionById(id);
+            var currentRegion = await GetRegionByIdAsync(id);
             if (currentRegion != null)
             {
                 currentRegion.Code = region.Code;
@@ -63,22 +63,22 @@ namespace NZWalks.DAL.Repositories.Implementations
                 currentRegion.RegionImageUrl = region.RegionImageUrl;
             }
             
-            return _dbContext.SaveChanges() == 1 ? currentRegion : null;
+            return (await _dbContext.SaveChangesAsync()) == 1 ? currentRegion : null;
         }
 
-        public int SaveChanges()
+        public async Task<int> SaveChangesAsync()
         {
-            return _dbContext.SaveChanges();
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public Region? Delete(Guid id)
+        public async Task<Region?> DeleteAsync(Guid id)
         {
-            var currentRegion = GetRegionById(id);
+            var currentRegion = await GetRegionByIdAsync(id);
             var deletedEntity = new Region();
             if (currentRegion != null)
             {
                 deletedEntity = _dbContext.Regions.Remove(currentRegion).Entity;
-                SaveChanges();
+                await SaveChangesAsync();
                 return deletedEntity;
             }
             

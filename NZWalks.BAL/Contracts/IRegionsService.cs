@@ -9,10 +9,10 @@ namespace NZWalks.BAL.Contracts
 {
     public interface IRegionsService
     {
-        public List<RegionDto> GetAll();
-        public RegionDto GetRegionById(Guid id);
-        public RegionDto CreateRegion(AddRegionRequestDto addRegionRequestDto);
-        public RegionDto? UpdateRegion(Guid id, UpdateRegionRequestDto updateRegionRequestDto);
-        public RegionDto? DeleteRegion(Guid id);
+        public Task<RegionDto?> GetRegionByIdAsync(Guid id);
+        public Task<RegionDto?> CreateRegionAsync(AddRegionRequestDto addRegionRequestDto);
+        public Task<RegionDto?> UpdateRegionAsync(Guid id, UpdateRegionRequestDto updateRegionRequestDto);
+        public Task<RegionDto?> DeleteRegionAsync(Guid id);
+        public Task<List<RegionDto>> GetAllAsync();
     }
 }

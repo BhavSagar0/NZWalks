@@ -9,14 +9,14 @@ namespace NZWalks.BAL.RepositoryInterfaces
 {
     public interface IRegionsRespository
     {
-        public Guid CreateRegion(Region newRegion);
-        public List<Region> GetAll();
-        public Region GetRegionById(Guid id);
-        public void BeginTransaction();
-        public void CommitTransaction();
-        public void RollbackTransaction();
-        public Region? UpdateRegion(Guid id, Region region);
-        public int SaveChanges();
-        public Region? Delete(Guid id);
+        public Task<Guid> CreateRegionAsync(Region newRegion);
+        public Task<List<Region>> GetAllAsync();
+        public Task<Region?> GetRegionByIdAsync(Guid id);
+        public void BeginTransactionAsync();
+        public void CommitTransactionAsync();
+        public void RollbackTransactionAsync();
+        public Task<Region?> UpdateRegionAsync(Guid id, Region region);
+        public Task<int> SaveChangesAsync();
+        public Task<Region?> DeleteAsync(Guid id);
     }
 }

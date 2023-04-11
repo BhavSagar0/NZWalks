@@ -18,9 +18,9 @@ namespace NZWalks.API.Controllers
 
         //Get all Regions
         [HttpGet]
-        public IActionResult GetAll() 
+        public async Task<IActionResult> GetAll() 
         {
-            var regions = _regionsService.GetAll();
+            var regions = await _regionsService.GetAllAsync();
 
             return Ok(regions);
         }
@@ -28,10 +28,10 @@ namespace NZWalks.API.Controllers
         //Get Single Region (Get Region by Id)
         [HttpGet]
         [Route("{id:Guid}")]
-        public IActionResult GetById([FromRoute] Guid id) 
+        public async Task<IActionResult> GetById([FromRoute] Guid id) 
         {
             //var region = _dbContext.Regions.Find(id);
-            var region = _regionsService.GetRegionById(id);
+            var region = await _regionsService.GetRegionByIdAsync(id);
 
             if (region == null)
             {
@@ -42,18 +42,18 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] AddRegionRequestDto addRegionRequestDto)
+        public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            var newRegion = _regionsService.CreateRegion(addRegionRequestDto);
+            var newRegion = await _regionsService.CreateRegionAsync(addRegionRequestDto);
 
             return CreatedAtAction(nameof(GetById), new { id = newRegion.Id }, newRegion);
         }
 
         [HttpPut]
         [Route("{id:Guid}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
-            var result = _regionsService.UpdateRegion(id, updateRegionRequestDto);
+            var result = await _regionsService.UpdateRegionAsync(id, updateRegionRequestDto);
 
             if(result == null)
                 return NotFound();
@@ -63,9 +63,9 @@ namespace NZWalks.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
-            var result = _regionsService.DeleteRegion(id);
+            var result = await _regionsService.DeleteRegionAsync(id);
 
             return result == null ? NotFound() : Ok(result);
         }
