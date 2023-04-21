@@ -14,9 +14,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<NZWalksDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")), contextLifetime: ServiceLifetime.Scoped, optionsLifetime: ServiceLifetime.Scoped);
+builder.Services.AddDbContext<NZWalksDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")), contextLifetime: ServiceLifetime.Scoped);
 builder.Services.AddScoped<IRegionsService, RegionsService>();
 builder.Services.AddScoped<IRegionsRespository, RegionsRepository>();
+
+builder.Services.AddScoped<IWalksRepository, WalksRepository>();
+builder.Services.AddScoped<IWalksService, WalksService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

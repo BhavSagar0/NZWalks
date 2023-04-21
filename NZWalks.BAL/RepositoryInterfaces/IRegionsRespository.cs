@@ -12,9 +12,6 @@ namespace NZWalks.BAL.RepositoryInterfaces
         public Task<Guid> CreateRegionAsync(Region newRegion);
         public Task<List<Region>> GetAllAsync();
         public Task<Region?> GetRegionByIdAsync(Guid id);
-        public void BeginTransactionAsync();
-        public void CommitTransactionAsync();
-        public void RollbackTransactionAsync();
         public Task<Region?> UpdateRegionAsync(Guid id, Region region);
         public Task<int> SaveChangesAsync();
         public Task<Region?> DeleteAsync(Guid id);

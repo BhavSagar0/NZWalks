@@ -20,21 +20,6 @@ namespace NZWalks.DAL.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public async void BeginTransactionAsync()
-        {
-            await _dbContext.Database.BeginTransactionAsync();
-        }
-
-        public async void CommitTransactionAsync()
-        {
-            await _dbContext.Database.CommitTransactionAsync();
-        }
-
-        public async void RollbackTransactionAsync()
-        {
-            await _dbContext.Database.RollbackTransactionAsync();
-        }
-
         public async Task<Guid> CreateRegionAsync(Region newRegion)
         {
             var regionObj = await _dbContext.Regions.AddAsync(newRegion);

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace NZWalks.BAL.DTOs
 {
-    public class AddRegionRequestDto
+    public class DifficultyDto
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Code { get; set; }
-        public string? RegionImageUrl { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NZWalks.BAL.DTOs;
+using NZWalks.BAL.DTOs.RequestDtos;
 using NZWalks.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace NZWalks.BAL.AutoMapping
             CreateMap<Region, RegionDto>().ReverseMap();
             CreateMap<Region, AddRegionRequestDto>().ReverseMap();
             CreateMap<Region, UpdateRegionRequestDto>().ReverseMap();
+            CreateMap<Walk, WalkDto>().ReverseMap();
+            CreateMap<Walk, AddWalkRequestDto>().ReverseMap();
+            CreateMap<Difficulty, DifficultyDto>().ReverseMap();
+            CreateMap<Walk, UpdateWalkRequestDto>().ReverseMap();
         }
     }
 }

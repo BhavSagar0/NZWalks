@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.CustomActionFilters;
 using NZWalks.BAL.Contracts;
-using NZWalks.BAL.DTOs;
+using NZWalks.BAL.DTOs.RequestDtos;
 
 namespace NZWalks.API.Controllers
 {
@@ -42,16 +43,23 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            var newRegion = await _regionsService.CreateRegionAsync(addRegionRequestDto);
+            if (ModelState.IsValid)
+            {
+                var newRegion = await _regionsService.CreateRegionAsync(addRegionRequestDto);
 
-            return CreatedAtAction(nameof(GetById), new { id = newRegion.Id }, newRegion);
+                return CreatedAtAction(nameof(GetById), new { id = newRegion.Id }, newRegion);
+            }
+            else
+                return BadRequest(ModelState);
         }
 
         [HttpPut]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+        [ValidateModel]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
         {
             var result = await _regionsService.UpdateRegionAsync(id, updateRegionRequestDto);
 
@@ -63,7 +71,7 @@ namespace NZWalks.API.Controllers
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var result = await _regionsService.DeleteRegionAsync(id);
 
