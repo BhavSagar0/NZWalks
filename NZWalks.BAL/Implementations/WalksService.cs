@@ -49,13 +49,13 @@ namespace NZWalks.BAL.Implementations
             return result;
         }
 
-        public async Task<List<WalkDto>> GetAllAsync()
+        public async Task<List<WalkDto>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true, int pageNumber = 0, int pageSize = 1000)
         {
             var result = new List<WalkDto>();
 
             try
             {
-                var walks = await _walksRepository.GetAllAsync();
+                var walks = await _walksRepository.GetAllAsync(filterOn, filterQuery, sortBy, isAscending, pageNumber, pageSize);
 
                 result = _mapper.Map<List<WalkDto>>(walks);
             }

@@ -12,7 +12,7 @@ namespace NZWalks.BAL.Contracts
     {
         Task<WalkDto?> CreateWalkAsync(AddWalkRequestDto addWalkRequestDto);
         Task<WalkDto?> DeleteAsync(Guid id);
-        Task<List<WalkDto>> GetAllAsync();
+        Task<List<WalkDto>> GetAllAsync(string? filterOn = null, string? filterQuery = null, string? sortBy = null, bool isAscending = true, int pageNumber = 0, int pageSize = 1000);
         Task<WalkDto> GetWalkByIdAsync(Guid id);
         Task<WalkDto?> UpdateWalk(Guid id, UpdateWalkRequestDto updateWalkRequest);
     }
